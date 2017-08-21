@@ -22,6 +22,8 @@ import hudson.model.Descriptor;
 import hudson.util.FormValidation;
 import hudson.util.ListBoxModel;
 import hudson.util.Secret;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Configuration to access ElectricFlow server.
@@ -29,6 +31,10 @@ import hudson.util.Secret;
 public class Configuration
     extends AbstractDescribableImpl<Configuration>
 {
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final Log log = LogFactory.getLog(
+            Configuration.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -157,7 +163,8 @@ public class Configuration
                 return FormValidation.ok("Success");
             }
             catch (Exception e) {
-                return FormValidation.error("Wrong configurations");
+                log.warn("Invalid ElectricFlow server configuration", e);
+                return FormValidation.error("Wrong ElectricFlow server configuration: %s", e.getMessage());
             }
         }
 
